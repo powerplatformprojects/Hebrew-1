@@ -175,7 +175,7 @@ async function ensureMicPermission(){
 function stopListening(){
   const previous=recognition;recognition=null;
   if(previous){
-    clearTimeout(previous.startTimer);clearTimeout(previous.limitTimer);clearTimeout(previous.stopTimer);
+    clearTimeout(previous.startTimer);clearTimeout(previous.limitTimer);clearTimeout(previous.stopTimer);clearTimeout(previous.silenceTimer);
     previous.onstart=previous.onaudiostart=previous.onspeechstart=previous.onresult=previous.onerror=previous.onend=previous.onnomatch=null;
     try{previous.abort()}catch(e){}
   }
@@ -204,7 +204,7 @@ function listen(){
   recognition=active;isListening=true;
   // Start within the button's user gesture. Do not await getUserMedia here:
   // recognition owns microphone access and asks for its own permissions.
-  active.lang='he-IL';active.interimResults=true;active.continuous=false;active.maxAlternatives=5;
+  active.lang='he-IL';active.interimResults=true;active.continuous=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);active.maxAlternatives=5;
   const target=getForm().slice();let handled=false;
   $('listenBtn').textContent='⏹ Stop listening';$('listenBtn').setAttribute('aria-pressed','true');
   $('listenBtn').classList.add('recording');setSpeechStatus('Starting speech recognition… Allow access if asked.','warn');
@@ -215,19 +215,26 @@ function listen(){
   };
   active.onaudiostart=()=>{if(recognition===active)setSpeechStatus('Listening now — say the Hebrew word once.','warn')};
   active.onspeechstart=()=>{if(recognition===active)setSpeechStatus('I hear you…','warn')};
+  const matches=list=>list.some(text=>isCloseEnough(text,target[2])||isCloseEnough(text,target[3]));
+  // iOS Safari often delivers only interim results, so judge them after a short pause.
+  const judge=list=>{
+    if(handled)return;handled=true;clearTimeout(active.silenceTimer);
+    const heard=list.slice(0,3).join(' | ');
+    stopListening();matches(list)?success(heard):fail(heard);
+  };
   active.onresult=event=>{
     if(recognition!==active||handled)return;
-    const alternatives=[];let interim='';
-    for(let r=event.resultIndex||0;r<event.results.length;r++){
-      const result=event.results[r];
-      if(result.isFinal===false){if(result[0])interim+=result[0].transcript;continue}
+    const alternatives=[];let anyFinal=false;
+    for(let r=0;r<event.results.length;r++){
+      const result=event.results[r];if(result.isFinal)anyFinal=true;
       for(let a=0;a<result.length;a++)if(result[a].transcript)alternatives.push(result[a].transcript);
     }
-    if(!alternatives.length){if(interim)setSpeechStatus('Hearing: '+interim,'warn');return}
-    handled=true;
-    const ok=alternatives.some(text=>isCloseEnough(text,target[2])||isCloseEnough(text,target[3]));
-    const heard=alternatives.slice(0,3).join(' | ');
-    stopListening();ok?success(heard):fail(heard);
+    if(!alternatives.length)return;
+    active.lastHeard=alternatives;
+    clearTimeout(active.silenceTimer);
+    if(anyFinal||matches(alternatives)){judge(alternatives);return}
+    setSpeechStatus('Hearing: '+alternatives[0],'warn');
+    active.silenceTimer=setTimeout(()=>{if(recognition===active)judge(active.lastHeard)},1200);
   };
   active.onerror=event=>{
     if(recognition!==active)return;handled=true;const code=event.error;stopListening();
@@ -248,6 +255,7 @@ function listen(){
   };
   active.onend=()=>{
     if(recognition!==active)return;
+    if(!handled&&active.lastHeard){judge(active.lastHeard);return}
     stopListening();if(!handled)speechHelp('Listening ended without a final word. Try again in Safari with Siri enabled, or use Hebrew keyboard dictation below.');
   };
   active.startTimer=setTimeout(()=>{
