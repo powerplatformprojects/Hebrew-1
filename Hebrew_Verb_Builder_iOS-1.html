@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hebrew Verb Builder</title>
+<style>
+:root{--bg:#f6f8fb;--card:#fff;--ink:#132033;--muted:#64748b;--line:#d7e0ee;--blue:#2563eb;--green:#15803d;--purple:#7c3aed;--red:#dc2626;--amber:#f59e0b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif}header{padding:10px 12px;text-align:center;background:#fff;border-bottom:1px solid var(--line)}h1{font-size:21px;margin:0}.sub{color:var(--muted);font-size:12px;margin-top:2px}.app{max-width:1060px;margin:8px auto 80px;padding:0 8px;display:flex;flex-direction:column;gap:10px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 20px #0f172a0a;padding:10px}.practiceTop{min-height:calc(100vh - 80px);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:7px;overflow:hidden;position:relative}.practiceTitle{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;font-weight:900}.frontPicker{width:min(440px,100%);display:grid;grid-template-columns:1fr auto;gap:7px;align-items:center}.frontPicker select{width:100%;padding:9px;font-size:14px}.miniLabel{font-size:11px;font-weight:900;color:var(--muted)}.pill{border:1px solid var(--line);background:#f8fafc;border-radius:999px;padding:4px 9px;font-size:12px}.toggleRow{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;font-weight:800;font-size:13px}.toggleRow input{width:18px;height:18px}.rootShow{direction:rtl;color:var(--green);font-size:34px;letter-spacing:.10em;font-weight:900;background:#ecfdf3;border:2px solid #b7e4c7;border-radius:14px;padding:5px 12px}.build{direction:rtl;display:flex;align-items:center;justify-content:center;gap:6px;min-height:48px}.slot{min-width:40px;min-height:40px;border:2px dashed #cbd5e1;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:25px;font-weight:900}.prefixSlot{color:var(--blue);background:#eff6ff}.suffixSlot{color:var(--purple);background:#f5f0ff}.rootMini{color:var(--green);background:#effaf2;border:2px solid #b7e4c7;border-radius:12px;padding:6px 10px;font-size:27px;font-weight:900}.result{direction:rtl;font-size:42px;font-weight:1000;min-width:min(340px,96%);text-align:center;background:#fff;border:2px solid var(--line);border-radius:18px;padding:6px 10px;opacity:0;transform:scale(.96);transition:.25s}.result.show{opacity:1;transform:scale(1)}.meaning{font-size:16px;font-weight:900;text-align:center;min-height:22px}.translit{font-size:13px;color:var(--muted);font-weight:800;min-height:18px}.explain{font-size:12px;color:#334155;text-align:center;min-height:16px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:min(410px,100%)}button,select,input{font-size:15px;border-radius:12px;padding:9px;border:1px solid #cbd5e1;background:white}button{border:0;background:var(--blue);color:#fff;font-weight:900;cursor:pointer}button.secondary{background:#eef5ff;color:#174ea6;border:1px solid #bfdbfe}button.success{background:var(--green)}button.danger{background:var(--red)}button.recording{background:var(--red);animation:pulse 1s infinite}button:disabled{opacity:.5;cursor:not-allowed}@keyframes pulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.22)}}.status{border-radius:14px;background:#f8fafc;border:1px solid var(--line);padding:8px 10px;text-align:center;font-weight:750;width:min(650px,100%);font-size:13px}.good{background:#ecfdf3;border-color:#86efac;color:#166534}.bad{background:#fff1f2;border-color:#fecdd3;color:#991b1b}.warn{background:#fffbeb;border-color:#fde68a;color:#92400e}.pronouns{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;width:100%;max-width:780px}.person{background:#fff;border:1px solid var(--line);border-radius:13px;padding:6px 3px;text-align:center;cursor:pointer;transition:.18s;user-select:none;min-height:60px}.person.active{outline:2px solid #bfdbfe;border-color:#60a5fa;background:#eff6ff}.person.done{border-color:#86efac;background:#f0fdf4}.icon{font-size:18px}.eng{font-weight:900;font-size:11px}.heAdd{direction:rtl;color:var(--purple);font-weight:900;font-size:14px}.progress{width:min(640px,100%);height:8px;background:#e2e8f0;border-radius:999px;overflow:hidden}.bar{height:100%;background:var(--green);width:0%;transition:.25s}.progressText{font-size:12px;color:var(--muted)}.bigSuccess{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;transform:scale(.8);transition:.25s;z-index:5}.bigSuccess.show{opacity:1;transform:scale(1)}.successBox{font-size:38px;font-weight:1000;background:#ecfdf3;color:#166534;border:4px solid #86efac;border-radius:28px;padding:26px;text-align:center;box-shadow:0 20px 60px #0002}.successBox small{display:block;font-size:16px;margin-top:8px}details{background:#fff}summary{font-weight:1000;cursor:pointer;font-size:18px}.configGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}.full{grid-column:1/-1}label{font-weight:900;display:block;margin-bottom:6px}.hint{font-size:13px;line-height:1.4;color:var(--muted)}.wordList{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;max-height:300px;overflow:auto}.wordBtn{background:#f8fafc;color:var(--ink);border:1px solid var(--line);text-align:left}.wordBtn.active{background:#ecfdf3;border-color:#86efac}.tools{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.tableWrap{max-height:260px;overflow:auto;border:1px solid var(--line);border-radius:14px}table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:9px;border-bottom:1px solid #e2e8f0;text-align:left}td.he{direction:rtl;text-align:right;font-size:24px;font-weight:900}.activeRow{background:#fff7dd}audio{width:min(410px,100%);height:38px}
+@media(min-width:800px){.pronouns{grid-template-columns:repeat(8,1fr)}.rootShow{font-size:50px}.result{font-size:62px}.practiceTop{min-height:650px;gap:9px}.configGrid{grid-template-columns:1.2fr 1fr 1fr}.wordList{grid-template-columns:repeat(3,1fr)}}
+@media(max-height:760px){header .sub{display:none}.practiceTop{min-height:calc(100vh - 60px);gap:4px}.result{font-size:38px;padding:4px 9px}.rootShow{font-size:30px}.person{min-height:50px}.status{font-size:12px;padding:6px 8px}.actions button{padding:7px}.explain{display:none}.pill{font-size:10px}.frontPicker select{padding:6px 8px}.successBox{font-size:30px;padding:18px}}
+.speechHelp{width:min(650px,100%);font-size:13px;line-height:1.5}.speechHelp summary{font-size:13px;cursor:pointer}.speechHelp p{margin:8px 0}.speechHelp form{display:flex;gap:8px;flex-wrap:wrap}.speechHelp input{flex:1;min-width:150px;width:100%;font-size:18px}.speechHelp label{margin-top:8px}.speechHelp button{white-space:nowrap}
+</style>
+</head>
+<body>
+<header><h1>Hebrew Verb Builder</h1><div class="sub">Pick a word, pick a tense, tap a pronoun, hear it, say it.</div></header>
+<main class="app">
+<section class="card practiceTop" id="stage">
+  <div class="practiceTitle"><span class="pill" id="rootLabel"></span><span class="pill" id="tenseLabel"></span></div>
+  <div class="frontPicker"><select id="frontRootChoice" aria-label="Choose word"></select><span class="miniLabel">word</span></div>
+  <div class="frontPicker"><select id="frontTense" aria-label="Choose tense"><option value="past">Past</option><option value="future">Future</option></select><span class="miniLabel">tense</span></div>
+  <label class="toggleRow"><input id="autoSpeak" type="checkbox"> Auto say each word</label>
+  <div class="rootShow" id="rootBox"></div>
+  <div class="build"><div class="prefixSlot slot" id="prefixSlot"></div><div class="rootMini" id="rootMini"></div><div class="suffixSlot slot" id="suffixSlot"></div></div>
+  <div class="result" id="result"></div>
+  <div class="meaning" id="meaning">Tap a pronoun</div><div class="translit" id="translit"></div><div class="explain" id="explain"></div><div class="status" id="status" role="status" aria-live="polite" aria-atomic="true">Choose a conjugation to begin.</div>
+  <div class="progress"><div class="bar" id="bar"></div></div><div class="progressText" id="progressText">0 completed</div><div class="pronouns" id="pronouns"></div>
+  <div class="actions"><button id="sayBtn">▶ Hear it</button><button class="secondary" id="listenBtn" aria-pressed="false">🎙 Say it</button></div>
+  <div class="actions"><button class="secondary" id="replayBtn">Replay</button><button class="success" id="nextBtn">Next</button></div>
+  <details class="speechHelp" id="speechHelp"><summary>iPhone listening help and dictation alternative</summary>
+    <p>Open the hosted HTTPS address directly in Safari, allow speech recognition and microphone access if asked, and make sure Siri is enabled. A downloaded HTML file or an in-app preview may not provide speech access.</p>
+    <p>Tap <b>Say it</b>, wait for <b>Listening now</b>, then say the Hebrew word. Tap <b>Stop listening</b> to finish. Recognition depends on your browser’s Hebrew support and may use an online speech service.</p>
+    <p>If Safari speech recognition is unavailable, tap the box below, switch your iPhone keyboard to Hebrew, and use its dictation microphone. Then tap <b>Check word</b>. You can also type; this checks the text, not pronunciation.</p>
+    <label for="dictationInput">Hebrew dictation or text</label>
+    <form id="dictationForm"><input id="dictationInput" lang="he-IL" dir="rtl" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="הכתבה בעברית" aria-describedby="dictationNote"><button type="submit" class="secondary">Check word</button></form>
+    <p id="dictationNote">The app does not save audio recordings. Your browser or keyboard’s speech service handles dictation.</p>
+  </details>
+  <div class="bigSuccess" id="bigSuccess"><div class="successBox">✅ Correct!<small id="successSub">Great pronunciation</small></div></div>
+</section>
+<section class="card"><details><summary>⚙ Settings, full word list, and progress</summary><div class="configGrid">
+<div><label for="rootChoice">Current word</label><select id="rootChoice"></select></div><div><label for="tense">Tense</label><select id="tense"><option value="past">Past</option><option value="future">Future</option></select></div>
+<div><label>Tools</label><div class="tools"><button class="secondary" id="micCheck">Mic check</button><button class="danger" id="resetProgress">Reset word</button></div></div>
+<div class="full"><label>This session's randomized words</label><div class="wordList" id="wordList"></div><p class="hint">A new randomized set loads each time the app starts. Open this app on HTTPS for speech recognition. On iPhone or iPad, try the hosted page directly in Safari and allow speech access. Use the listening help above if it does not start.</p></div>
+<div class="full tableWrap"><table><thead><tr><th>Pronoun</th><th>Add</th><th>Hebrew</th><th>English</th><th>Done</th></tr></thead><tbody id="tbody"></tbody></table></div>
+<p class="hint full"><b>Speech note:</b> Tap Say it to start; tap Stop listening to finish. Speech matching checks the recognized Hebrew word, not a clinical or phonetic pronunciation score. Audio is not recorded or saved by this app; your browser may send speech to its recognition provider. Mic check tests microphone permission separately and does not test Hebrew recognition.</p>
+</div></details></section>
+</main>
+<script>
+const order=['i','youm','youf','he','she','we','youpl','they'];
+const names={i:'I',youm:'you m.',youf:'you f.',he:'he',she:'she',we:'we',youpl:'you pl.',they:'they'};
+const icons={i:'👤',youm:'🧍',youf:'🧍‍♀️',he:'👨',she:'👩',we:'👥',youpl:'👥',they:'👥'};
+const subjPast={i:'I',youm:'you',youf:'you',he:'he',she:'she',we:'we',youpl:'you all',they:'they'};
+const futureAux={i:'I will',youm:'you will',youf:'you will',he:'he will',she:'she will',we:'we will',youpl:'you all will',they:'they will'};
+const $=id=>document.getElementById(id);
+function F(pre,suf,heb,tr,eng,ex){return [pre||'',suf||'',heb,tr,eng,ex||'']}
+function word(key,root,base,display,gloss,pastGloss,forms){return {key,root,base,display,gloss,pastGloss,forms}}
+function regularPaals(key,root,base,display,gloss,pastStem,pastGloss,futStem,forms){
+  const past={i:F('', 'תי', forms.p_i, pastStem+'ti', 'I '+pastGloss, 'Add תי at the end.'),youm:F('', 'ת', forms.p_you_m, pastStem+'ta', 'you '+pastGloss, 'Add ת at the end.'),youf:F('', 'ת', forms.p_you_f||forms.p_you_m, pastStem+'t', 'you '+pastGloss, 'Add ת at the end.'),he:F('', '', forms.p_he, pastStem, 'he '+pastGloss, 'No added letter.'),she:F('', 'ה', forms.p_she, pastStem+'a', 'she '+pastGloss, 'Add ה at the end.'),we:F('', 'נו', forms.p_we, pastStem+'nu', 'we '+pastGloss, 'Add נו at the end.'),youpl:F('', 'תם', forms.p_you_pl, pastStem+'tem', 'you all '+pastGloss, 'Add תם at the end.'),they:F('', 'ו', forms.p_they, pastStem+'u', 'they '+pastGloss, 'Add ו at the end.')};
+  const future={i:F('א','',forms.f_i,'e'+futStem,'I will '+gloss,'Add א before the root.'),youm:F('ת','',forms.f_you_m,'ti'+futStem,'you will '+gloss,'Add ת before the root.'),youf:F('ת','י',forms.f_you_f,'ti'+futStem+'i','you will '+gloss,'Add ת before and י at the end.'),he:F('י','',forms.f_he,'yi'+futStem,'he will '+gloss,'Add י before the root.'),she:F('ת','',forms.f_she,'ti'+futStem,'she will '+gloss,'Add ת before the root.'),we:F('נ','',forms.f_we,'ni'+futStem,'we will '+gloss,'Add נ before the root.'),youpl:F('ת','ו',forms.f_you_pl,'ti'+futStem+'u','you all will '+gloss,'Add ת before and ו at the end.'),they:F('י','ו',forms.f_they,'yi'+futStem+'u','they will '+gloss,'Add י before and ו at the end.')};
+  return word(key,root,base,display,gloss,pastGloss,{past,future});
+}
+const WORD_BANK=[
+regularPaals('ktv','כ־ת־ב','כתב','כ ת ב','write','wrote','katav','chtov',{p_i:'כתבתי',p_you_m:'כתבת',p_he:'כתב',p_she:'כתבה',p_we:'כתבנו',p_you_pl:'כתבתם',p_they:'כתבו',f_i:'אכתוב',f_you_m:'תכתוב',f_you_f:'תכתבי',f_he:'יכתוב',f_she:'תכתוב',f_we:'נכתוב',f_you_pl:'תכתבו',f_they:'יכתבו'}),
+regularPaals('amr','א־מ־ר','אמר','א מ ר','say','said','amarti','omar',{p_i:'אמרתי',p_you_m:'אמרת',p_he:'אמר',p_she:'אמרה',p_we:'אמרנו',p_you_pl:'אמרתם',p_they:'אמרו',f_i:'אומר',f_you_m:'תאמר',f_you_f:'תאמרי',f_he:'יאמר',f_she:'תאמר',f_we:'נאמר',f_you_pl:'תאמרו',f_they:'יאמרו'}),
+regularPaals('akh','א־כ־ל','אכל','א כ ל','eat','ate','achalti','ochal',{p_i:'אכלתי',p_you_m:'אכלת',p_he:'אכל',p_she:'אכלה',p_we:'אכלנו',p_you_pl:'אכלתם',p_they:'אכלו',f_i:'אוכל',f_you_m:'תאכל',f_you_f:'תאכלי',f_he:'יאכל',f_she:'תאכל',f_we:'נאכל',f_you_pl:'תאכלו',f_they:'יאכלו'}),
+regularPaals('shth','ש־ת־ה','שתה','ש ת ה','drink','drank','shatiti','ishte',{p_i:'שתיתי',p_you_m:'שתית',p_he:'שתה',p_she:'שתתה',p_we:'שתינו',p_you_pl:'שתיתם',p_they:'שתו',f_i:'אשתה',f_you_m:'תשתה',f_you_f:'תשתי',f_he:'ישתה',f_she:'תשתה',f_we:'נשתה',f_you_pl:'תשתו',f_they:'ישתו'}),
+regularPaals('raa','ר־א־ה','ראה','ר א ה','see','saw','raiti','ereh',{p_i:'ראיתי',p_you_m:'ראית',p_he:'ראה',p_she:'ראתה',p_we:'ראינו',p_you_pl:'ראיתם',p_they:'ראו',f_i:'אראה',f_you_m:'תראה',f_you_f:'תראי',f_he:'יראה',f_she:'תראה',f_we:'נראה',f_you_pl:'תראו',f_they:'יראו'}),
+regularPaals('hlkh','ה־ל־ך','הלך','ה ל ך','go','went','halachti','elech',{p_i:'הלכתי',p_you_m:'הלכת',p_he:'הלך',p_she:'הלכה',p_we:'הלכנו',p_you_pl:'הלכתם',p_they:'הלכו',f_i:'אלך',f_you_m:'תלך',f_you_f:'תלכי',f_he:'ילך',f_she:'תלך',f_we:'נלך',f_you_pl:'תלכו',f_they:'ילכו'}),
+regularPaals('bo','ב־ו־א','בא','ב ו א','come','came','bati','avo',{p_i:'באתי',p_you_m:'באת',p_he:'בא',p_she:'באה',p_we:'באנו',p_you_pl:'באתם',p_they:'באו',f_i:'אבוא',f_you_m:'תבוא',f_you_f:'תבואי',f_he:'יבוא',f_she:'תבוא',f_we:'נבוא',f_you_pl:'תבואו',f_they:'יבואו'}),
+regularPaals('shm','ש־מ־ע','שמע','ש מ ע','hear','heard','shamati','shma',{p_i:'שמעתי',p_you_m:'שמעת',p_he:'שמע',p_she:'שמעה',p_we:'שמענו',p_you_pl:'שמעתם',p_they:'שמעו',f_i:'אשמע',f_you_m:'תשמע',f_you_f:'תשמעי',f_he:'ישמע',f_she:'תשמע',f_we:'נשמע',f_you_pl:'תשמעו',f_they:'ישמעו'}),
+regularPaals('qry','ק־ר־א','קרא','ק ר א','read / call','read / called','karati','ekra',{p_i:'קראתי',p_you_m:'קראת',p_he:'קרא',p_she:'קראה',p_we:'קראנו',p_you_pl:'קראתם',p_they:'קראו',f_i:'אקרא',f_you_m:'תקרא',f_you_f:'תקראי',f_he:'יקרא',f_she:'תקרא',f_we:'נקרא',f_you_pl:'תקראו',f_they:'יקראו'}),
+regularPaals('ngr','ס־ג־ר','סגר','ס ג ר','close','closed','sagarti','sgor',{p_i:'סגרתי',p_you_m:'סגרת',p_he:'סגר',p_she:'סגרה',p_we:'סגרנו',p_you_pl:'סגרתם',p_they:'סגרו',f_i:'אסגור',f_you_m:'תסגור',f_you_f:'תסגרי',f_he:'יסגור',f_she:'תסגור',f_we:'נסגור',f_you_pl:'תסגרו',f_they:'יסגרו'}),
+regularPaals('ptkh','פ־ת־ח','פתח','פ ת ח','open','opened','patachti','ftach',{p_i:'פתחתי',p_you_m:'פתחת',p_he:'פתח',p_she:'פתחה',p_we:'פתחנו',p_you_pl:'פתחתם',p_they:'פתחו',f_i:'אפתח',f_you_m:'תפתח',f_you_f:'תפתחי',f_he:'יפתח',f_she:'תפתח',f_we:'נפתח',f_you_pl:'תפתחו',f_they:'יפתחו'}),
+regularPaals('lmd','ל־מ־ד','למד','ל מ ד','study / learn','studied / learned','lamadti','lmad',{p_i:'למדתי',p_you_m:'למדת',p_he:'למד',p_she:'למדה',p_we:'למדנו',p_you_pl:'למדתם',p_they:'למדו',f_i:'אלמד',f_you_m:'תלמד',f_you_f:'תלמדי',f_he:'ילמד',f_she:'תלמד',f_we:'נלמד',f_you_pl:'תלמדו',f_they:'ילמדו'}),
+regularPaals('ysv','י־ש־ב','ישב','י ש ב','sit','sat','yashavti','shev',{p_i:'ישבתי',p_you_m:'ישבת',p_he:'ישב',p_she:'ישבה',p_we:'ישבנו',p_you_pl:'ישבתם',p_they:'ישבו',f_i:'אשב',f_you_m:'תשב',f_you_f:'תשבי',f_he:'ישב',f_she:'תשב',f_we:'נשב',f_you_pl:'תשבו',f_they:'ישבו'}),
+regularPaals('amd','ע־מ־ד','עמד','ע מ ד','stand','stood','amadti','amod',{p_i:'עמדתי',p_you_m:'עמדת',p_he:'עמד',p_she:'עמדה',p_we:'עמדנו',p_you_pl:'עמדתם',p_they:'עמדו',f_i:'אעמוד',f_you_m:'תעמוד',f_you_f:'תעמדי',f_he:'יעמוד',f_she:'תעמוד',f_we:'נעמוד',f_you_pl:'תעמדו',f_they:'יעמדו'}),
+regularPaals('khzr','ח־ז־ר','חזר','ח ז ר','return','returned','chazarti','chzor',{p_i:'חזרתי',p_you_m:'חזרת',p_he:'חזר',p_she:'חזרה',p_we:'חזרנו',p_you_pl:'חזרתם',p_they:'חזרו',f_i:'אחזור',f_you_m:'תחזור',f_you_f:'תחזרי',f_he:'יחזור',f_she:'תחזור',f_we:'נחזור',f_you_pl:'תחזרו',f_they:'יחזרו'}),
+regularPaals('shl','ש־א־ל','שאל','ש א ל','ask','asked','shaalti','eshal',{p_i:'שאלתי',p_you_m:'שאלת',p_he:'שאל',p_she:'שאלה',p_we:'שאלנו',p_you_pl:'שאלתם',p_they:'שאלו',f_i:'אשאל',f_you_m:'תשאל',f_you_f:'תשאלי',f_he:'ישאל',f_she:'תשאל',f_we:'נשאל',f_you_pl:'תשאלו',f_they:'ישאלו'}),
+regularPaals('gr','ג־ו־ר','גר','ג ו ר','live / reside','lived','garti','agur',{p_i:'גרתי',p_you_m:'גרת',p_he:'גר',p_she:'גרה',p_we:'גרנו',p_you_pl:'גרתם',p_they:'גרו',f_i:'אגור',f_you_m:'תגור',f_you_f:'תגורי',f_he:'יגור',f_she:'תגור',f_we:'נגור',f_you_pl:'תגורו',f_they:'יגורו'}),
+regularPaals('kna','ק־נ־ה','קנה','ק נ ה','buy','bought','kaniti','ekne',{p_i:'קניתי',p_you_m:'קנית',p_he:'קנה',p_she:'קנתה',p_we:'קנינו',p_you_pl:'קניתם',p_they:'קנו',f_i:'אקנה',f_you_m:'תקנה',f_you_f:'תקני',f_he:'יקנה',f_she:'תקנה',f_we:'נקנה',f_you_pl:'תקנו',f_they:'יקנו'}),
+regularPaals('mkr','מ־כ־ר','מכר','מ כ ר','sell','sold','macharti','emkor',{p_i:'מכרתי',p_you_m:'מכרת',p_he:'מכר',p_she:'מכרה',p_we:'מכרנו',p_you_pl:'מכרתם',p_they:'מכרו',f_i:'אמכור',f_you_m:'תמכור',f_you_f:'תמכרי',f_he:'ימכור',f_she:'תמכור',f_we:'נמכור',f_you_pl:'תמכרו',f_they:'ימכרו'}),
+regularPaals('lkh','ל־ק־ח','לקח','ל ק ח','take','took','lakachti','ekach',{p_i:'לקחתי',p_you_m:'לקחת',p_he:'לקח',p_she:'לקחה',p_we:'לקחנו',p_you_pl:'לקחתם',p_they:'לקחו',f_i:'אקח',f_you_m:'תקח',f_you_f:'תקחי',f_he:'יקח',f_she:'תקח',f_we:'נקח',f_you_pl:'תקחו',f_they:'יקחו'}),
+regularPaals('ntn','נ־ת־ן','נתן','נ ת ן','give','gave','natati','eten',{p_i:'נתתי',p_you_m:'נתת',p_he:'נתן',p_she:'נתנה',p_we:'נתנו',p_you_pl:'נתתם',p_they:'נתנו',f_i:'אתן',f_you_m:'תתן',f_you_f:'תתני',f_he:'יתן',f_she:'תתן',f_we:'נתן',f_you_pl:'תתנו',f_they:'יתנו'}),
+regularPaals('mtsa','מ־צ־א','מצא','מ צ א','find','found','matzati','emtza',{p_i:'מצאתי',p_you_m:'מצאת',p_he:'מצא',p_she:'מצאה',p_we:'מצאנו',p_you_pl:'מצאתם',p_they:'מצאו',f_i:'אמצא',f_you_m:'תמצא',f_you_f:'תמצאי',f_he:'ימצא',f_she:'תמצא',f_we:'נמצא',f_you_pl:'תמצאו',f_they:'ימצאו'}),
+regularPaals('khshv','ח־ש־ב','חשב','ח ש ב','think','thought','chashavti','achshov',{p_i:'חשבתי',p_you_m:'חשבת',p_he:'חשב',p_she:'חשבה',p_we:'חשבנו',p_you_pl:'חשבתם',p_they:'חשבו',f_i:'אחשוב',f_you_m:'תחשוב',f_you_f:'תחשבי',f_he:'יחשוב',f_she:'תחשוב',f_we:'נחשוב',f_you_pl:'תחשבו',f_they:'יחשבו'}),
+regularPaals('yada','י־ד־ע','ידע','י ד ע','know','knew','yadati','eda',{p_i:'ידעתי',p_you_m:'ידעת',p_he:'ידע',p_she:'ידעה',p_we:'ידענו',p_you_pl:'ידעתם',p_they:'ידעו',f_i:'אדע',f_you_m:'תדע',f_you_f:'תדעי',f_he:'ידע',f_she:'תדע',f_we:'נדע',f_you_pl:'תדעו',f_they:'ידעו'}),
+regularPaals('ahv','א־ה־ב','אהב','א ה ב','love / like','loved / liked','ahavti','ohav',{p_i:'אהבתי',p_you_m:'אהבת',p_he:'אהב',p_she:'אהבה',p_we:'אהבנו',p_you_pl:'אהבתם',p_they:'אהבו',f_i:'אוהב',f_you_m:'תאהב',f_you_f:'תאהבי',f_he:'יאהב',f_she:'תאהב',f_we:'נאהב',f_you_pl:'תאהבו',f_they:'יאהבו'}),
+regularPaals('rkad','ר־ק־ד','רקד','ר ק ד','dance','danced','rakadti','irkod',{p_i:'רקדתי',p_you_m:'רקדת',p_he:'רקד',p_she:'רקדה',p_we:'רקדנו',p_you_pl:'רקדתם',p_they:'רקדו',f_i:'ארקוד',f_you_m:'תרקוד',f_you_f:'תרקדי',f_he:'ירקוד',f_she:'תרקוד',f_we:'נרקוד',f_you_pl:'תרקדו',f_they:'ירקדו'}),
+regularPaals('shkhv','ש־כ־ב','שכב','ש כ ב','lie down','lay down','shachavti','eshkav',{p_i:'שכבתי',p_you_m:'שכבת',p_he:'שכב',p_she:'שכבה',p_we:'שכבנו',p_you_pl:'שכבתם',p_they:'שכבו',f_i:'אשכב',f_you_m:'תשכב',f_you_f:'תשכבי',f_he:'ישכב',f_she:'תשכב',f_we:'נשכב',f_you_pl:'תשכבו',f_they:'ישכבו'}),
+regularPaals('avd','ע־ב־ד','עבד','ע ב ד','work','worked','avadti','avod',{p_i:'עבדתי',p_you_m:'עבדת',p_he:'עבד',p_she:'עבדה',p_we:'עבדנו',p_you_pl:'עבדתם',p_they:'עבדו',f_i:'אעבוד',f_you_m:'תעבוד',f_you_f:'תעבדי',f_he:'יעבוד',f_she:'תעבוד',f_we:'נעבוד',f_you_pl:'תעבדו',f_they:'יעבדו'}),
+regularPaals('tzkhk','צ־ח־ק','צחק','צ ח ק','laugh','laughed','tzachakti','etzchak',{p_i:'צחקתי',p_you_m:'צחקת',p_he:'צחק',p_she:'צחקה',p_we:'צחקנו',p_you_pl:'צחקתם',p_they:'צחקו',f_i:'אצחק',f_you_m:'תצחק',f_you_f:'תצחקי',f_he:'יצחק',f_she:'תצחק',f_we:'נצחק',f_you_pl:'תצחקו',f_they:'יצחקו'}),
+regularPaals('bkha','ב־כ־ה','בכה','ב כ ה','cry','cried','bachiti','evke',{p_i:'בכיתי',p_you_m:'בכית',p_he:'בכה',p_she:'בכתה',p_we:'בכינו',p_you_pl:'בכיתם',p_they:'בכו',f_i:'אבכה',f_you_m:'תבכה',f_you_f:'תבכי',f_he:'יבכה',f_she:'תבכה',f_we:'נבכה',f_you_pl:'תבכו',f_they:'יבכו'}),
+regularPaals('ratz','ר־ו־ץ','רץ','ר ו ץ','run','ran','ratzti','arutz',{p_i:'רצתי',p_you_m:'רצת',p_he:'רץ',p_she:'רצה',p_we:'רצנו',p_you_pl:'רצתם',p_they:'רצו',f_i:'ארוץ',f_you_m:'תרוץ',f_you_f:'תרוצי',f_he:'ירוץ',f_she:'תרוץ',f_we:'נרוץ',f_you_pl:'תרוצו',f_they:'ירוצו'}),
+regularPaals('shar','ש־י־ר','שר','ש י ר','sing','sang','sharti','ashir',{p_i:'שרתי',p_you_m:'שרת',p_he:'שר',p_she:'שרה',p_we:'שרנו',p_you_pl:'שרתם',p_they:'שרו',f_i:'אשיר',f_you_m:'תשיר',f_you_f:'תשירי',f_he:'ישיר',f_she:'תשיר',f_we:'נשיר',f_you_pl:'תשירו',f_they:'ישירו'}),
+regularPaals('zkh','ז־כ־ר','זכר','ז כ ר','remember','remembered','zacharti','ezkor',{p_i:'זכרתי',p_you_m:'זכרת',p_he:'זכר',p_she:'זכרה',p_we:'זכרנו',p_you_pl:'זכרתם',p_they:'זכרו',f_i:'אזכור',f_you_m:'תזכור',f_you_f:'תזכרי',f_he:'יזכור',f_she:'תזכור',f_we:'נזכור',f_you_pl:'תזכרו',f_they:'יזכרו'}),
+regularPaals('shkhkh','ש־כ־ח','שכח','ש כ ח','forget','forgot','shachachti','eshkach',{p_i:'שכחתי',p_you_m:'שכחת',p_he:'שכח',p_she:'שכחה',p_we:'שכחנו',p_you_pl:'שכחתם',p_they:'שכחו',f_i:'אשכח',f_you_m:'תשכח',f_you_f:'תשכחי',f_he:'ישכח',f_she:'תשכח',f_we:'נשכח',f_you_pl:'תשכחו',f_they:'ישכחו'}),
+regularPaals('khykh','ח־י־ך','חייך','ח י ך','smile','smiled','chiyachti','achayech',{p_i:'חייכתי',p_you_m:'חייכת',p_he:'חייך',p_she:'חייכה',p_we:'חייכנו',p_you_pl:'חייכתם',p_they:'חייכו',f_i:'אחייך',f_you_m:'תחייך',f_you_f:'תחייכי',f_he:'יחייך',f_she:'תחייך',f_we:'נחייך',f_you_pl:'תחייכו',f_they:'יחייכו'}),
+regularPaals('nfl','נ־פ־ל','נפל','נ פ ל','fall','fell','nafalti','epol',{p_i:'נפלתי',p_you_m:'נפלת',p_he:'נפל',p_she:'נפלה',p_we:'נפלנו',p_you_pl:'נפלתם',p_they:'נפלו',f_i:'אפול',f_you_m:'תפול',f_you_f:'תפלי',f_he:'יפול',f_she:'תפול',f_we:'נפול',f_you_pl:'תפלו',f_they:'יפלו'}),
+regularPaals('lavsh','ל־ב־ש','לבש','ל ב ש','wear','wore','lavashti','ilbash',{p_i:'לבשתי',p_you_m:'לבשת',p_he:'לבש',p_she:'לבשה',p_we:'לבשנו',p_you_pl:'לבשתם',p_they:'לבשו',f_i:'אלבש',f_you_m:'תלבש',f_you_f:'תלבשי',f_he:'ילבש',f_she:'תלבש',f_we:'נלבש',f_you_pl:'תלבשו',f_they:'ילבשו'}),
+regularPaals('rkav','ר־כ־ב','רכב','ר כ ב','ride','rode','rachavti','erkav',{p_i:'רכבתי',p_you_m:'רכבת',p_he:'רכב',p_she:'רכבה',p_we:'רכבנו',p_you_pl:'רכבתם',p_they:'רכבו',f_i:'ארכב',f_you_m:'תרכב',f_you_f:'תרכבי',f_he:'ירכב',f_she:'תרכב',f_we:'נרכב',f_you_pl:'תרכבו',f_they:'ירכבו'}),
+regularPaals('shavar','ש־ב־ר','שבר','ש ב ר','break','broke','shavarti','eshbor',{p_i:'שברתי',p_you_m:'שברת',p_he:'שבר',p_she:'שברה',p_we:'שברנו',p_you_pl:'שברתם',p_they:'שברו',f_i:'אשבור',f_you_m:'תשבור',f_you_f:'תשברי',f_he:'ישבור',f_she:'תשבור',f_we:'נשבור',f_you_pl:'תשברו',f_they:'ישברו'}),
+regularPaals('shamar','ש־מ־ר','שמר','ש מ ר','guard / keep','guarded / kept','shamarti','eshmor',{p_i:'שמרתי',p_you_m:'שמרת',p_he:'שמר',p_she:'שמרה',p_we:'שמרנו',p_you_pl:'שמרתם',p_they:'שמרו',f_i:'אשמור',f_you_m:'תשמור',f_you_f:'תשמרי',f_he:'ישמור',f_she:'תשמור',f_we:'נשמור',f_you_pl:'תשמרו',f_they:'ישמרו'}),
+regularPaals('gdl','ג־ד־ל','גדל','ג ד ל','grow','grew','gadalti','egdal',{p_i:'גדלתי',p_you_m:'גדלת',p_he:'גדל',p_she:'גדלה',p_we:'גדלנו',p_you_pl:'גדלתם',p_they:'גדלו',f_i:'אגדל',f_you_m:'תגדל',f_you_f:'תגדלי',f_he:'יגדל',f_she:'תגדל',f_we:'נגדל',f_you_pl:'תגדלו',f_they:'יגדלו'}),
+regularPaals('azav','ע־ז־ב','עזב','ע ז ב','leave','left','azavti','eezov',{p_i:'עזבתי',p_you_m:'עזבת',p_he:'עזב',p_she:'עזבה',p_we:'עזבנו',p_you_pl:'עזבתם',p_they:'עזבו',f_i:'אעזוב',f_you_m:'תעזוב',f_you_f:'תעזבי',f_he:'יעזוב',f_she:'תעזוב',f_we:'נעזוב',f_you_pl:'תעזבו',f_they:'יעזבו'}),
+regularPaals('pakhad','פ־ח־ד','פחד','פ ח ד','be afraid','was afraid','pachadti','efchad',{p_i:'פחדתי',p_you_m:'פחדת',p_he:'פחד',p_she:'פחדה',p_we:'פחדנו',p_you_pl:'פחדתם',p_they:'פחדו',f_i:'אפחד',f_you_m:'תפחד',f_you_f:'תפחדי',f_he:'יפחד',f_she:'תפחד',f_we:'נפחד',f_you_pl:'תפחדו',f_they:'יפחדו'}),
+regularPaals('kafatz','ק־פ־ץ','קפץ','ק פ ץ','jump','jumped','kafatzti','ekpotz',{p_i:'קפצתי',p_you_m:'קפצת',p_he:'קפץ',p_she:'קפצה',p_we:'קפצנו',p_you_pl:'קפצתם',p_they:'קפצו',f_i:'אקפוץ',f_you_m:'תקפוץ',f_you_f:'תקפצי',f_he:'יקפוץ',f_she:'תקפוץ',f_we:'נקפוץ',f_you_pl:'תקפצו',f_they:'יקפצו'}),
+regularPaals('pagash','פ־ג־ש','פגש','פ ג ש','meet','met','pagashti','efgosh',{p_i:'פגשתי',p_you_m:'פגשת',p_he:'פגש',p_she:'פגשה',p_we:'פגשנו',p_you_pl:'פגשתם',p_they:'פגשו',f_i:'אפגוש',f_you_m:'תפגוש',f_you_f:'תפגשי',f_he:'יפגוש',f_she:'תפגוש',f_we:'נפגוש',f_you_pl:'תפגשו',f_they:'יפגשו'}),
+regularPaals('batakh','ב־ט־ח','בטח','ב ט ח','trust','trusted','batachti','evtach',{p_i:'בטחתי',p_you_m:'בטחת',p_he:'בטח',p_she:'בטחה',p_we:'בטחנו',p_you_pl:'בטחתם',p_they:'בטחו',f_i:'אבטח',f_you_m:'תבטח',f_you_f:'תבטחי',f_he:'יבטח',f_she:'תבטח',f_we:'נבטח',f_you_pl:'תבטחו',f_they:'יבטחו'}),
+regularPaals('yatzar','י־צ־ר','יצר','י צ ר','create','created','yatzarti','etzor',{p_i:'יצרתי',p_you_m:'יצרת',p_he:'יצר',p_she:'יצרה',p_we:'יצרנו',p_you_pl:'יצרתם',p_they:'יצרו',f_i:'אצור',f_you_m:'תיצור',f_you_f:'תיצרי',f_he:'יצור',f_she:'תיצור',f_we:'ניצור',f_you_pl:'תיצרו',f_they:'יצרו'}),
+regularPaals('lakhen','ל־ח־ם','לחם','ל ח ם','fight','fought','lachamti','elachem',{p_i:'לחמתי',p_you_m:'לחמת',p_he:'לחם',p_she:'לחמה',p_we:'לחמנו',p_you_pl:'לחמתם',p_they:'לחמו',f_i:'אלחם',f_you_m:'תלחם',f_you_f:'תלחמי',f_he:'ילחם',f_she:'תלחם',f_we:'נלחם',f_you_pl:'תלחמו',f_they:'ילחמו'}),
+regularPaals('anah','ע־נ־ה','ענה','ע נ ה','answer','answered','aniti','eene',{p_i:'עניתי',p_you_m:'ענית',p_he:'ענה',p_she:'ענתה',p_we:'ענינו',p_you_pl:'עניתם',p_they:'ענו',f_i:'אענה',f_you_m:'תענה',f_you_f:'תעני',f_he:'יענה',f_she:'תענה',f_we:'נענה',f_you_pl:'תענו',f_they:'יענו'}),
+regularPaals('ratzah','ר־צ־ה','רצה','ר צ ה','want','wanted','ratziti','ertze',{p_i:'רציתי',p_you_m:'רצית',p_he:'רצה',p_she:'רצתה',p_we:'רצינו',p_you_pl:'רציתם',p_they:'רצו',f_i:'ארצה',f_you_m:'תרצה',f_you_f:'תרצי',f_he:'ירצה',f_she:'תרצה',f_we:'נרצה',f_you_pl:'תרצו',f_they:'ירצו'}),
+regularPaals('yakhol','י־כ־ל','יכול','י כ ל','be able','could / was able','yacholti','uchal',{p_i:'יכולתי',p_you_m:'יכולת',p_he:'יכול',p_she:'יכלה',p_we:'יכולנו',p_you_pl:'יכולתם',p_they:'יכלו',f_i:'אוכל',f_you_m:'תוכל',f_you_f:'תוכלי',f_he:'יוכל',f_she:'תוכל',f_we:'נוכל',f_you_pl:'תוכלו',f_they:'יוכלו'}),
+regularPaals('tzarikh','צ־ר־ך','צריך','צ ר ך','need','needed','tzarichti','itztarech',{p_i:'הייתי צריך',p_you_m:'היית צריך',p_you_f:'היית צריכה',p_he:'היה צריך',p_she:'הייתה צריכה',p_we:'היינו צריכים',p_you_pl:'הייתם צריכים',p_they:'היו צריכים',f_i:'אצטרך',f_you_m:'תצטרך',f_you_f:'תצטרכי',f_he:'יצטרך',f_she:'תצטרך',f_we:'נצטרך',f_you_pl:'תצטרכו',f_they:'יצטרכו'}),
+regularPaals('histader','ס־ד־ר','הסתדר','ס ד ר','manage / get by','managed / got by','histadarti','istader',{p_i:'הסתדרתי',p_you_m:'הסתדרת',p_you_f:'הסתדרת',p_he:'הסתדר',p_she:'הסתדרה',p_we:'הסתדרנו',p_you_pl:'הסתדרתם',p_they:'הסתדרו',f_i:'אסתדר',f_you_m:'תסתדר',f_you_f:'תסתדרי',f_he:'יסתדר',f_she:'תסתדר',f_we:'נסתדר',f_you_pl:'תסתדרו',f_they:'יסתדרו'}),
+regularPaals('hitchil','ת־ח־ל','התחיל','ת ח ל','start','started','hitchalti','atchil',{p_i:'התחלתי',p_you_m:'התחלת',p_he:'התחיל',p_she:'התחילה',p_we:'התחלנו',p_you_pl:'התחלתם',p_they:'התחילו',f_i:'אתחיל',f_you_m:'תתחיל',f_you_f:'תתחילי',f_he:'יתחיל',f_she:'תתחיל',f_we:'נתחיל',f_you_pl:'תתחילו',f_they:'יתחילו'}),
+regularPaals('siyem','ס־י־ם','סיים','ס י ם','finish','finished','siyamti','asayem',{p_i:'סיימתי',p_you_m:'סיימת',p_he:'סיים',p_she:'סיימה',p_we:'סיימנו',p_you_pl:'סיימתם',p_they:'סיימו',f_i:'אסיים',f_you_m:'תסיים',f_you_f:'תסיימי',f_he:'יסיים',f_she:'תסיים',f_we:'נסיים',f_you_pl:'תסיימו',f_they:'יסיימו'}),
+regularPaals('bisel','ב־ש־ל','בישל','ב ש ל','cook','cooked','bishalti','avashel',{p_i:'בישלתי',p_you_m:'בישלת',p_he:'בישל',p_she:'בישלה',p_we:'בישלנו',p_you_pl:'בישלתם',p_they:'בישלו',f_i:'אבשל',f_you_m:'תבשל',f_you_f:'תבשלי',f_he:'יבשל',f_she:'תבשל',f_we:'נבשל',f_you_pl:'תבשלו',f_they:'יבשלו'}),
+regularPaals('sikhek','ש־ח־ק','שיחק','ש ח ק','play','played','sichakti','asachek',{p_i:'שיחקתי',p_you_m:'שיחקת',p_he:'שיחק',p_she:'שיחקה',p_we:'שיחקנו',p_you_pl:'שיחקתם',p_they:'שיחקו',f_i:'אשחק',f_you_m:'תשחק',f_you_f:'תשחקי',f_he:'ישחק',f_she:'תשחק',f_we:'נשחק',f_you_pl:'תשחקו',f_they:'ישחקו'}),
+regularPaals('higiya','נ־ג־ע','הגיע','נ ג ע','arrive','arrived','higati','agia',{p_i:'הגעתי',p_you_m:'הגעת',p_he:'הגיע',p_she:'הגיעה',p_we:'הגענו',p_you_pl:'הגעתם',p_they:'הגיעו',f_i:'אגיע',f_you_m:'תגיע',f_you_f:'תגיעי',f_he:'יגיע',f_she:'תגיע',f_we:'נגיע',f_you_pl:'תגיעו',f_they:'יגיעו'}),
+regularPaals('nasa','נ־ס־ע','נסע','נ ס ע','travel / drive','traveled / drove','nasati','esa',{p_i:'נסעתי',p_you_m:'נסעת',p_he:'נסע',p_she:'נסעה',p_we:'נסענו',p_you_pl:'נסעתם',p_they:'נסעו',f_i:'אסע',f_you_m:'תיסע',f_you_f:'תיסעי',f_he:'ייסע',f_she:'תיסע',f_we:'ניסע',f_you_pl:'תיסעו',f_they:'ייסעו'})
+];
+const SESSION_SIZE=50;
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+let sessionWords=shuffle(WORD_BANK).slice(0,SESSION_SIZE);
+if(localStorage.hvbKeepWord && !sessionWords.some(w=>w.key===localStorage.hvbRoot)){const old=WORD_BANK.find(w=>w.key===localStorage.hvbRoot);if(old)sessionWords.unshift(old)}
+let currentRoot=localStorage.hvbRoot||sessionWords[0].key,tense=localStorage.hvbTense||'past',currentPerson=localStorage.hvbPerson||'we';
+let recognition=null,isListening=false;
+let animationTimer=null,autoSpeechTimer=null,advanceTimer=null;
+function roots(){return Object.fromEntries(sessionWords.map(w=>[w.key,w]))}function currentWord(){return roots()[currentRoot]||sessionWords[0]}const progressKey=()=>`hvbProgress:${currentRoot}:${tense}`;const progress=()=>JSON.parse(localStorage.getItem(progressKey())||'{}');const saveProgress=o=>localStorage.setItem(progressKey(),JSON.stringify(o));function getForm(p=currentPerson){return currentWord().forms[tense][p]}function labelFor(w){return `${w.root} — ${w.gloss}`}
+function fillPickers(){const opts=sessionWords.map(w=>`<option value="${w.key}">${labelFor(w)}</option>`).join('');['rootChoice','frontRootChoice'].forEach(id=>{$(id).innerHTML=opts;$(id).value=currentRoot});$('tense').value=tense;$('frontTense').value=tense;$('wordList').innerHTML=sessionWords.map(w=>`<button class="wordBtn ${w.key===currentRoot?'active':''}" data-root="${w.key}">${labelFor(w)}</button>`).join('');document.querySelectorAll('.wordBtn').forEach(b=>b.onclick=()=>setRoot(b.dataset.root));}
+function render(){const r=currentWord();currentRoot=r.key;$('rootLabel').textContent=labelFor(r);$('tenseLabel').textContent=tense[0].toUpperCase()+tense.slice(1);$('rootBox').textContent=r.display;$('rootMini').textContent=r.base;fillPickers();renderPronouns();renderTable();updateProgress();}
+function renderPronouns(){const done=progress();$('pronouns').innerHTML=order.map(p=>{const f=getForm(p),add=(f[0]||'')+(f[1]||'');return `<div class="person ${p===currentPerson?'active':''} ${done[p]?'done':''}" data-p="${p}"><div class="icon">${icons[p]}</div><div class="eng">${names[p]}</div><div class="heAdd">${add||'∅'}</div></div>`}).join('');document.querySelectorAll('.person').forEach(el=>el.onclick=()=>{currentPerson=el.dataset.p;localStorage.hvbPerson=currentPerson;render();animate(true)});}
+function renderTable(){const done=progress();$('tbody').innerHTML=order.map(p=>{const f=getForm(p);return `<tr class="${p===currentPerson?'activeRow':''}"><td>${names[p]}</td><td dir="rtl">${(f[0]||'')+(f[1]||'')||'∅'}</td><td class="he">${f[2]}</td><td>${f[4]}</td><td>${done[p]?'✅':''}</td></tr>`}).join('');}
+function updateProgress(){const done=progress(),n=order.filter(p=>done[p]).length;$('bar').style.width=(n/order.length*100)+'%';$('progressText').textContent=`${n}/${order.length} completed for this word and tense`;}
+function animate(shouldSpeak=false){
+  clearTimeout(animationTimer);clearTimeout(autoSpeechTimer);clearTimeout(advanceTimer);
+  stopListening();$('dictationInput').value='';
+  const [pre,suf,heb,trans,eng,ex]=getForm();
+  $('prefixSlot').textContent=pre;$('suffixSlot').textContent=suf;$('result').classList.remove('show');$('result').textContent=heb;$('meaning').textContent=eng;$('translit').textContent=trans;$('explain').textContent=ex;
+  setSpeechStatus('Tap Hear it, or tap Say it and speak once.');
+  animationTimer=setTimeout(()=>{
+    $('result').classList.add('show');
+    if(shouldSpeak&&$('autoSpeak').checked&&!isListening)autoSpeechTimer=setTimeout(()=>{if(!isListening)speak()},250);
+  },120);
+}
+function speak(){
+  clearTimeout(autoSpeechTimer);stopListening();
+  if(!window.speechSynthesis||!window.SpeechSynthesisUtterance){setSpeechStatus('This browser cannot read the word aloud.','warn');return}
+  const u=new SpeechSynthesisUtterance(getForm()[2]);u.lang='he-IL';u.rate=.78;
+  window.speechSynthesis.cancel();window.speechSynthesis.speak(u);
+}
+function successSound(){try{const ctx=new (AudioContext||webkitAudioContext)(),g=ctx.createGain();g.connect(ctx.destination);g.gain.value=.08;[523,659,784,1046].forEach((hz,i)=>{const o=ctx.createOscillator();o.frequency.value=hz;o.connect(g);o.start(ctx.currentTime+i*.09);o.stop(ctx.currentTime+i*.09+.08)});setTimeout(()=>ctx.close(),650)}catch(e){}}
+function failSound(){try{const ctx=new (AudioContext||webkitAudioContext)(),o=ctx.createOscillator(),g=ctx.createGain();o.frequency.value=180;o.connect(g);g.connect(ctx.destination);g.gain.value=.07;o.start();setTimeout(()=>{o.stop();ctx.close()},260)}catch(e){}}
+function showSuccess(heard){$('successSub').textContent=heard?`I heard: ${heard}`:'Great pronunciation';$('bigSuccess').classList.add('show');setTimeout(()=>$('bigSuccess').classList.remove('show'),1050)}
+function success(heard){const done=progress();done[currentPerson]=Date.now();saveProgress(done);$('status').className='status good';$('status').textContent='Correct! Moving forward.';successSound();showSuccess(heard);render();clearTimeout(advanceTimer);advanceTimer=setTimeout(nextForward,950)}
+function fail(heard){$('status').className='status bad';$('status').textContent=heard?`I heard: ${heard}. Try again, or tap Hear it for an example.`:'I did not get a speech result. Tap Hear it for an example, then try again.';failSound()}
+function norm(s){return (s||'').toLowerCase().replace(/[\u0591-\u05C7]/g,'').replace(/[׳״'\".,!?;:()\-\s]/g,'').replace(/[^a-zא-ת]/g,'')}
+function isCloseEnough(heard,target){const h=norm(heard),t=norm(target);if(!h||!t)return false;if(h===t)return true;if(h.length>=3&&t.length>=3&&(h.includes(t)||t.includes(h)))return true;return false}
+function speechContextReady(){return window.isSecureContext&&(location.protocol==='https:'||['localhost','127.0.0.1','[::1]'].includes(location.hostname))}
+function setSpeechStatus(message,kind=''){
+  $('status').className='status'+(kind?' '+kind:'');$('status').textContent=message;
+}
+function resetListenButton(){
+  isListening=false;$('listenBtn').disabled=false;$('listenBtn').classList.remove('recording');
+  $('listenBtn').textContent='🎙 Say it';$('listenBtn').setAttribute('aria-pressed','false');
+}
+function speechHelp(message){$('speechHelp').open=true;setSpeechStatus(message,'warn')}
+async function ensureMicPermission(){
+  if(!speechContextReady())throw new Error('secure-context');
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw new Error('no-getusermedia');
+  const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+  stream.getTracks().forEach(track=>track.stop());
+}
+function stopListening(){
+  const previous=recognition;recognition=null;
+  if(previous){
+    clearTimeout(previous.startTimer);clearTimeout(previous.limitTimer);clearTimeout(previous.stopTimer);
+    previous.onstart=previous.onaudiostart=previous.onspeechstart=previous.onresult=previous.onerror=previous.onend=previous.onnomatch=null;
+    try{previous.abort()}catch(e){}
+  }
+  resetListenButton();
+}
+function finishListening(){
+  const active=recognition;if(!active)return;
+  clearTimeout(active.startTimer);clearTimeout(active.limitTimer);
+  if(active.stopping)return;
+  active.stopping=true;$('listenBtn').textContent='Finishing…';setSpeechStatus('Finishing recognition…');
+  active.stopTimer=setTimeout(()=>{
+    if(recognition!==active)return;
+    stopListening();speechHelp('No final speech result arrived. Try again or use Hebrew keyboard dictation below.');
+  },4000);
+  try{active.stop()}catch(e){stopListening();speechHelp('Listening stopped without a result. Tap Say it to retry, or use Hebrew keyboard dictation below.')}
+}
+function listen(){
+  if(isListening){finishListening();return}
+  clearTimeout(autoSpeechTimer);clearTimeout(advanceTimer);
+  if(!speechContextReady()){speechHelp('Listening requires the hosted HTTPS page. Open its website address in Safari, not a downloaded file or attachment preview.');return}
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){speechHelp('This browser does not expose speech recognition. On iPhone, open this HTTPS page directly in Safari with Siri enabled, or use Hebrew keyboard dictation below.');return}
+  if(window.speechSynthesis)window.speechSynthesis.cancel();
+  let active;
+  try{active=new SR()}catch(e){speechHelp('Speech recognition could not be created. Open the page directly in Safari or use Hebrew keyboard dictation below.');return}
+  recognition=active;isListening=true;
+  // Start within the button's user gesture. Do not await getUserMedia here:
+  // recognition owns microphone access and asks for its own permissions.
+  active.lang='he-IL';active.interimResults=true;active.continuous=false;active.maxAlternatives=5;
+  const target=getForm().slice();let handled=false;
+  $('listenBtn').textContent='⏹ Stop listening';$('listenBtn').setAttribute('aria-pressed','true');
+  $('listenBtn').classList.add('recording');setSpeechStatus('Starting speech recognition… Allow access if asked.','warn');
+  active.onstart=()=>{
+    if(recognition!==active)return;clearTimeout(active.startTimer);
+    setSpeechStatus('Listening now — say the Hebrew word once.','warn');
+    active.limitTimer=setTimeout(()=>{if(recognition===active)finishListening()},20000);
+  };
+  active.onaudiostart=()=>{if(recognition===active)setSpeechStatus('Listening now — say the Hebrew word once.','warn')};
+  active.onspeechstart=()=>{if(recognition===active)setSpeechStatus('I hear you…','warn')};
+  active.onresult=event=>{
+    if(recognition!==active||handled)return;
+    const alternatives=[];let interim='';
+    for(let r=event.resultIndex||0;r<event.results.length;r++){
+      const result=event.results[r];
+      if(result.isFinal===false){if(result[0])interim+=result[0].transcript;continue}
+      for(let a=0;a<result.length;a++)if(result[a].transcript)alternatives.push(result[a].transcript);
+    }
+    if(!alternatives.length){if(interim)setSpeechStatus('Hearing: '+interim,'warn');return}
+    handled=true;
+    const ok=alternatives.some(text=>isCloseEnough(text,target[2])||isCloseEnough(text,target[3]));
+    const heard=alternatives.slice(0,3).join(' | ');
+    stopListening();ok?success(heard):fail(heard);
+  };
+  active.onerror=event=>{
+    if(recognition!==active)return;handled=true;const code=event.error;stopListening();
+    const messages={
+      'not-allowed':'Speech or microphone access was denied. Allow access for this website in Safari settings and enable Siri, then tap Say it again.',
+      'service-not-allowed':'The speech service is unavailable or restricted. Check Siri and device restrictions, or use Hebrew keyboard dictation below.',
+      'audio-capture':'The browser could not access a microphone. Close other microphone apps, check site permission, and retry.',
+      'no-speech':'No speech was detected. Tap Say it, wait for Listening now, then speak.',
+      'network':'The speech service could not be reached. Check your connection and retry, or use Hebrew keyboard dictation below.',
+      'language-not-supported':'This browser’s speech service does not support Hebrew here. Try Hebrew keyboard dictation below.',
+      'aborted':'Listening was stopped. Tap Say it to try again.'
+    };
+    if(['no-speech','aborted'].includes(code))setSpeechStatus(messages[code],'warn');
+    else speechHelp(messages[code]||'Speech recognition failed ('+code+'). Try again or use Hebrew keyboard dictation below.');
+  };
+  active.onnomatch=()=>{
+    if(recognition!==active)return;handled=true;stopListening();setSpeechStatus('No matching speech was recognized. Tap Hear it, then try again.','warn');
+  };
+  active.onend=()=>{
+    if(recognition!==active)return;
+    stopListening();if(!handled)speechHelp('Listening ended without a final word. Try again in Safari with Siri enabled, or use Hebrew keyboard dictation below.');
+  };
+  active.startTimer=setTimeout(()=>{
+    if(recognition!==active)return;
+    stopListening();speechHelp('Speech recognition did not start. Check site permissions and Siri, or use Hebrew keyboard dictation below.');
+  },15000);
+  try{active.start()}catch(e){
+    stopListening();speechHelp('Could not start speech recognition ('+(e.name||'error')+'). Open the HTTPS page directly in Safari and retry, or use Hebrew keyboard dictation below.');
+  }
+}
+$('dictationForm').onsubmit=event=>{
+  event.preventDefault();const text=$('dictationInput').value.trim();
+  if(!text){setSpeechStatus('Dictate or enter a Hebrew word first.','warn');$('dictationInput').focus();return}
+  stopListening();clearTimeout(autoSpeechTimer);clearTimeout(advanceTimer);
+  const form=getForm();
+  if(isCloseEnough(text,form[2])||isCloseEnough(text,form[3]))success('Entered text: '+text);else fail(text);
+};
+document.addEventListener('visibilitychange',()=>{if(document.hidden){stopListening();clearTimeout(autoSpeechTimer);clearTimeout(advanceTimer)}});
+window.addEventListener('pagehide',()=>{stopListening();clearTimeout(autoSpeechTimer);clearTimeout(advanceTimer)});
+function nextForward(){const i=order.indexOf(currentPerson);if(i<order.length-1){currentPerson=order[i+1]}else{const wi=sessionWords.findIndex(w=>w.key===currentRoot);currentRoot=sessionWords[(wi+1)%sessionWords.length].key;currentPerson=order[0];localStorage.hvbRoot=currentRoot}localStorage.hvbPerson=currentPerson;render();animate(true)}
+function setRoot(k){currentRoot=k;localStorage.hvbRoot=currentRoot;localStorage.hvbKeepWord='1';currentPerson='we';render();animate(true)}
+function setTense(v){tense=v;localStorage.hvbTense=tense;currentPerson='we';render();animate(true)}
+$('rootChoice').onchange=e=>setRoot(e.target.value);$('frontRootChoice').onchange=e=>setRoot(e.target.value);$('tense').onchange=e=>setTense(e.target.value);$('frontTense').onchange=e=>setTense(e.target.value);$('sayBtn').onclick=speak;$('listenBtn').onclick=listen;$('replayBtn').onclick=()=>animate(false);$('nextBtn').onclick=nextForward;$('resetProgress').onclick=()=>{localStorage.removeItem(progressKey());render();animate(true)};$('micCheck').onclick=async()=>{
+  stopListening();clearTimeout(autoSpeechTimer);clearTimeout(advanceTimer);
+  $('micCheck').disabled=true;setSpeechStatus('Checking microphone access…');
+  try{await ensureMicPermission();setSpeechStatus('Microphone access works. This does not test speech recognition. Tap Say it to test Hebrew.','good')}
+  catch(e){speechHelp(e.message==='secure-context'?'Mic check requires the hosted HTTPS page. Open it directly in Safari.':'Microphone check failed ('+(e.name||e.message)+'). Check site permissions. Hebrew keyboard dictation is available below.')}
+  finally{$('micCheck').disabled=false}
+};$('autoSpeak').checked=localStorage.hvbAutoSpeak==='1';$('autoSpeak').onchange=e=>{localStorage.hvbAutoSpeak=e.target.checked?'1':'0';if(e.target.checked)speak()};$('stage').addEventListener('dblclick',speak);render();animate($('autoSpeak').checked);
+</script>
+</body>
+</html>
