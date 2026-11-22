@@ -125,7 +125,8 @@ function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Ma
 let sessionWords=shuffle(WORD_BANK).slice(0,SESSION_SIZE);
 if(localStorage.hvbKeepWord && !sessionWords.some(w=>w.key===localStorage.hvbRoot)){const old=WORD_BANK.find(w=>w.key===localStorage.hvbRoot);if(old)sessionWords.unshift(old)}
 let currentRoot=localStorage.hvbRoot||sessionWords[0].key,tense=localStorage.hvbTense||'past',currentPerson=localStorage.hvbPerson||'we';
-let recognition=null,isListening=false;
+let recognition=null,isListening=false,sharedSR=null;
+const IS_IOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
 let animationTimer=null,autoSpeechTimer=null,advanceTimer=null;
 function roots(){return Object.fromEntries(sessionWords.map(w=>[w.key,w]))}function currentWord(){return roots()[currentRoot]||sessionWords[0]}const progressKey=()=>`hvbProgress:${currentRoot}:${tense}`;const progress=()=>JSON.parse(localStorage.getItem(progressKey())||'{}');const saveProgress=o=>localStorage.setItem(progressKey(),JSON.stringify(o));function getForm(p=currentPerson){return currentWord().forms[tense][p]}function labelFor(w){return `${w.root} — ${w.gloss}`}
 function fillPickers(){const opts=sessionWords.map(w=>`<option value="${w.key}">${labelFor(w)}</option>`).join('');['rootChoice','frontRootChoice'].forEach(id=>{$(id).innerHTML=opts;$(id).value=currentRoot});$('tense').value=tense;$('frontTense').value=tense;$('wordList').innerHTML=sessionWords.map(w=>`<button class="wordBtn ${w.key===currentRoot?'active':''}" data-root="${w.key}">${labelFor(w)}</button>`).join('');document.querySelectorAll('.wordBtn').forEach(b=>b.onclick=()=>setRoot(b.dataset.root));}
@@ -150,8 +151,8 @@ function speak(){
   const u=new SpeechSynthesisUtterance(getForm()[2]);u.lang='he-IL';u.rate=.78;
   window.speechSynthesis.cancel();window.speechSynthesis.speak(u);
 }
-function successSound(){try{const ctx=new (AudioContext||webkitAudioContext)(),g=ctx.createGain();g.connect(ctx.destination);g.gain.value=.08;[523,659,784,1046].forEach((hz,i)=>{const o=ctx.createOscillator();o.frequency.value=hz;o.connect(g);o.start(ctx.currentTime+i*.09);o.stop(ctx.currentTime+i*.09+.08)});setTimeout(()=>ctx.close(),650)}catch(e){}}
-function failSound(){try{const ctx=new (AudioContext||webkitAudioContext)(),o=ctx.createOscillator(),g=ctx.createGain();o.frequency.value=180;o.connect(g);g.connect(ctx.destination);g.gain.value=.07;o.start();setTimeout(()=>{o.stop();ctx.close()},260)}catch(e){}}
+function successSound(){if(IS_IOS)return;try{const ctx=new (AudioContext||webkitAudioContext)(),g=ctx.createGain();g.connect(ctx.destination);g.gain.value=.08;[523,659,784,1046].forEach((hz,i)=>{const o=ctx.createOscillator();o.frequency.value=hz;o.connect(g);o.start(ctx.currentTime+i*.09);o.stop(ctx.currentTime+i*.09+.08)});setTimeout(()=>ctx.close(),650)}catch(e){}}
+function failSound(){if(IS_IOS)return;try{const ctx=new (AudioContext||webkitAudioContext)(),o=ctx.createOscillator(),g=ctx.createGain();o.frequency.value=180;o.connect(g);g.connect(ctx.destination);g.gain.value=.07;o.start();setTimeout(()=>{o.stop();ctx.close()},260)}catch(e){}}
 function showSuccess(heard){$('successSub').textContent=heard?`I heard: ${heard}`:'Great pronunciation';$('bigSuccess').classList.add('show');setTimeout(()=>$('bigSuccess').classList.remove('show'),1050)}
 function success(heard){const done=progress();done[currentPerson]=Date.now();saveProgress(done);$('status').className='status good';$('status').textContent='Correct! Moving forward.';successSound();showSuccess(heard);render();clearTimeout(advanceTimer);advanceTimer=setTimeout(nextForward,950)}
 function fail(heard){$('status').className='status bad';$('status').textContent=heard?`I heard: ${heard}. Try again, or tap Hear it for an example.`:'I did not get a speech result. Tap Hear it for an example, then try again.';failSound()}
@@ -200,11 +201,12 @@ function listen(){
   if(!SR){speechHelp('This browser does not expose speech recognition. On iPhone, open this HTTPS page directly in Safari with Siri enabled, or use Hebrew keyboard dictation below.');return}
   if(window.speechSynthesis)window.speechSynthesis.cancel();
   let active;
-  try{active=new SR()}catch(e){speechHelp('Speech recognition could not be created. Open the page directly in Safari or use Hebrew keyboard dictation below.');return}
+  try{active=IS_IOS?(sharedSR||(sharedSR=new SR())):new SR()}catch(e){speechHelp('Speech recognition could not be created. Open the page directly in Safari or use Hebrew keyboard dictation below.');return}
+  active.stopping=false;active.lastHeard=null;active.startTimer=active.limitTimer=active.stopTimer=active.silenceTimer=null;
   recognition=active;isListening=true;
   // Start within the button's user gesture. Do not await getUserMedia here:
   // recognition owns microphone access and asks for its own permissions.
-  active.lang='he-IL';active.interimResults=true;active.continuous=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);active.maxAlternatives=5;
+  active.lang='he-IL';active.interimResults=true;active.continuous=IS_IOS;active.maxAlternatives=5;
   const target=getForm().slice();let handled=false;
   $('listenBtn').textContent='⏹ Stop listening';$('listenBtn').setAttribute('aria-pressed','true');
   $('listenBtn').classList.add('recording');setSpeechStatus('Starting speech recognition… Allow access if asked.','warn');
